@@ -1,4 +1,7 @@
-﻿using System.Configuration;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using System.Configuration;
 using System.Data;
 using System.Windows;
 
@@ -9,13 +12,37 @@ namespace DesktopClient
     /// </summary>
     public partial class App : Application
     {
-        protected override void OnStartup(StartupEventArgs e)
+        public static IHost? AppHost { get; private set; }
+        protected override async void OnStartup(StartupEventArgs e)
         {
-            Console.WriteLine( "here?");
+
+            await AppHost!.StartAsync();
+            var mainForm = AppHost.Services.GetRequiredService<MainWindow>();
+            mainForm.Show();
+
+            base.OnStartup(e);
         }
+
+        protected override async void OnExit(ExitEventArgs e)
+        {
+            await AppHost!.StopAsync();
+
+            base.OnExit(e);
+        }
+
         public App()
         {
-            Console.WriteLine("here we ara");
+            AppHost = Host.CreateDefaultBuilder()
+                .ConfigureServices((hostContext,services) =>
+                {
+                    services.AddSingleton<MainWindow>();
+                    services.AddSingleton(s=>new HubConnectionBuilder()
+                    .WithUrl("https://localhost:7266/messageHub")
+                    .Build());
+                })
+                .Build();
+
+            
         }
     }
 

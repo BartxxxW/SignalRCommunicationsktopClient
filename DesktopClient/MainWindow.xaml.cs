@@ -20,13 +20,14 @@ namespace DesktopClient
     public partial class MainWindow : Window
     {
         HubConnection connection;
-        public MainWindow()
+        public MainWindow(HubConnection _connection)
         {
             InitializeComponent();
 
-            connection = new HubConnectionBuilder()
-                .WithUrl("https://localhost:7266/messageHub")
-                .Build();
+            connection= _connection;
+            //connection = new HubConnectionBuilder()
+            //    .WithUrl("https://localhost:7266/messageHub")
+            //    .Build();
 
             connection.Closed += async (error) =>
             {
