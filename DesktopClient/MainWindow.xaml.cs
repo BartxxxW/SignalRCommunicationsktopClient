@@ -30,8 +30,14 @@ namespace DesktopClient
 
             connection.Closed += async (error) =>
             {
+                StatusLabel.Content = "Disconnected";
                 await Task.Delay(new Random().Next(0, 5) * 1000);
                 await connection.StartAsync();
+            };
+
+            connection.Reconnected += async (param) =>
+            {
+                StatusLabel.Content = "Connected Again ";
             };
 
             Connect();
@@ -40,7 +46,7 @@ namespace DesktopClient
 
         public async void Connect()
         {
-            connection.On<string>("ReceiveMessage", (message) =>
+            connection.On<string>("ReceiveWebMessage", (message) =>
             {
                 this.Dispatcher.Invoke(() =>
                 {
@@ -63,7 +69,7 @@ namespace DesktopClient
         {
             try
             {
-                await connection.InvokeAsync("Send",
+                await connection.InvokeAsync("SendToWebClient",
                      SendMessage.Text);
             }
             catch (Exception ex)
