@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using DesktopClient.Services;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Configuration;
@@ -37,8 +38,9 @@ namespace DesktopClient
                 {
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton(s=>new HubConnectionBuilder()
-                    .WithUrl("https://localhost:7266/messageHub")
+                    .WithUrl(ConfigurationManager.AppSettings["ApiUrl"])
                     .Build());
+                    services.AddSingleton<IHubConnectionService, HubConnectionService>();
                 })
                 .Build();
 

@@ -11,6 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DesktopClient.Services;
+using System.Reflection;
+using System.Windows.Interop;
 
 namespace DesktopClient
 {
@@ -19,69 +22,48 @@ namespace DesktopClient
     /// </summary>
     public partial class MainWindow : Window
     {
-        HubConnection connection;
-        public MainWindow(HubConnection _connection)
+
+        private readonly IHubConnectionService hubConnectionService;
+
+        public MainWindow( IHubConnectionService _hubConnectionService)
         {
             InitializeComponent();
+            hubConnectionService = _hubConnectionService;
 
-            connection= _connection;
-            //connection = new HubConnectionBuilder()
-            //    .WithUrl("https://localhost:7266/messageHub")
-            //    .Build();
 
-            connection.Closed += async (error) =>
-            {
-                StatusLabel.Content = "Disconnected";
-                await Task.Delay(new Random().Next(0, 5) * 1000);
-                await connection.StartAsync();
-            };
+            hubConnectionService.SetupHubEvents();
+            hubConnectionService.connectionStatusEvent += ConnectionStatusHandler;
+            hubConnectionService.receivedMessageEvent += ReceivedMsgHandler;
 
-            connection.Reconnected += async (param) =>
-            {
-                StatusLabel.Content = "Connected Again ";
-            };
+            hubConnectionService.Connect();
 
-            Connect();
 
         }
 
-        public async void Connect()
+        public async void ReceivedMsgHandler(object sender, string msg)
         {
-            connection.On<string>("ReceiveWebMessage", (message) =>
+            this.Dispatcher.Invoke(() =>
             {
-                this.Dispatcher.Invoke(() =>
-                {
-                    ReceivedMessage.Content= message;
-                });
+                ReceivedMessage.Content = msg;
             });
+        }
 
-            try
+        public async void ConnectionStatusHandler(object sender, string msg)
+        {
+            this.Dispatcher.Invoke(() =>
             {
-                await connection.StartAsync();
-                StatusLabel.Content = "Connected";
-            }
-            catch (Exception ex)
-            {
-                StatusLabel.Content = "Not Connected";
-            }
+                StatusLabel.Content = msg;
+            });
         }
 
         private async  void Button_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                await connection.InvokeAsync("SendToWebClient",
-                     SendMessage.Text);
-            }
-            catch (Exception ex)
-            {
-                ReceivedMessage.Content = $"Errod during sending message : {ex}";
-            }
+            hubConnectionService.SendMessage(SendMessage.Text);
         }
-
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
         }
+
     }
 }
