@@ -30,17 +30,11 @@ namespace DesktopClient
             InitializeComponent();
 
             hubConnectionService = _hubConnectionService;
-
-
             hubConnectionService.SetupHubEvents();
             hubConnectionService.connectionStatusEvent += ConnectionStatusHandler;
             hubConnectionService.receivedMessageEvent += ReceivedMsgHandler;
 
             hubConnectionService.Connect();
-
-
-
-
         }
 
         public async void ReceivedMsgHandler(object sender, string msg)
@@ -59,14 +53,9 @@ namespace DesktopClient
             });
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            hubConnectionService.SendMessage(SendMessage.Text);
-        }
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox textBox = (TextBox)sender;
-            // Get the text entered by the user
             string newText = textBox.Text;
 
             if (hubConnectionService != null)

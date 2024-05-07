@@ -7,12 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="265" Width="689">
     <Grid>
-        <Button Content="Send" HorizontalAlignment="Left" Margin="67,82,0,0" VerticalAlignment="Top" Height="21" Width="112" Click="Button_Click"/>
         <TextBox x:Name="SendMessage" HorizontalAlignment="Left" Margin="226,82,0,0" TextWrapping="Wrap" Text="---" VerticalAlignment="Top" Width="146" Height="22" TextChanged="TextBox_TextChanged"/>
         <Label Content="Received Message : " HorizontalAlignment="Left" Margin="67,120,0,0" VerticalAlignment="Top" Height="27" Width="119"/>
         <Label x:Name="StatusLabel" Content="Not Connected" HorizontalAlignment="Left" Margin="226,31,0,0" VerticalAlignment="Top" Height="33" Width="174"/>
         <Label x:Name="ReceivedMessage" Content="---" HorizontalAlignment="Left" Margin="226,120,0,0" VerticalAlignment="Top" Height="33" Width="174"/>
         <Label Content="Connection Status :" HorizontalAlignment="Left" Margin="67,31,0,0" VerticalAlignment="Top"/>
+        <Label Content="Message To Send :" HorizontalAlignment="Left" Margin="67,80,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
