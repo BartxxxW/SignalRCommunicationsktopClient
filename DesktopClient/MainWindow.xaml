@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DesktopClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="265" Width="689">
     <Grid>
-        <Button Content="Send" HorizontalAlignment="Left" Margin="226,72,0,0" VerticalAlignment="Top" Height="66" Width="140" Click="Button_Click" FontSize="20"/>
-        <TextBox x:Name="SendMessage" HorizontalAlignment="Left" Margin="495,91,0,0" TextWrapping="Wrap" Text="Empty Yet" VerticalAlignment="Top" Width="146" Height="47" TextChanged="TextBox_TextChanged"/>
-        <Label Content="Received Message : " HorizontalAlignment="Left" Margin="226,182,0,0" VerticalAlignment="Top" Height="55" Width="196" FontSize="20"/>
-        <Label x:Name="StatusLabel" Content="IsConnected" HorizontalAlignment="Left" Margin="422,27,0,0" VerticalAlignment="Top" Height="33" Width="174"/>
-        <Label x:Name="ReceivedMessage" Content="Label" HorizontalAlignment="Left" Margin="495,0,0,0" VerticalAlignment="Center" Height="73" Width="178"/>
+        <TextBox x:Name="SendMessage" HorizontalAlignment="Left" Margin="226,82,0,0" TextWrapping="Wrap" Text="---" VerticalAlignment="Top" Width="146" Height="22" TextChanged="TextBox_TextChanged"/>
+        <Label Content="Received Message : " HorizontalAlignment="Left" Margin="67,120,0,0" VerticalAlignment="Top" Height="27" Width="119"/>
+        <Label x:Name="StatusLabel" Content="Not Connected" HorizontalAlignment="Left" Margin="226,31,0,0" VerticalAlignment="Top" Height="33" Width="174"/>
+        <Label x:Name="ReceivedMessage" Content="---" HorizontalAlignment="Left" Margin="226,120,0,0" VerticalAlignment="Top" Height="33" Width="174"/>
+        <Label Content="Connection Status :" HorizontalAlignment="Left" Margin="67,31,0,0" VerticalAlignment="Top"/>
+        <Label Content="Message To Send :" HorizontalAlignment="Left" Margin="67,80,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
